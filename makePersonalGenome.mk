@@ -4,19 +4,19 @@ USAGE := "make -f makePersonalGenome DATA_DIR=/path/to/your/VCFdir OUTPUT_SAMPLE
 ## Define fixed, experiment-wide analysis parameters
 ##
 # location of fasta file (combined)
-FASTA_PATH := /path/fasta/hs37d5.fa
+FASTA_PATH := /workdir/sc2457/tools/vcf2diploid_v0.2.6a/example/human_chr20_hg18.fa
 
 ##
 ## Machine-specific variables
 ##
-N_THREADS := 8
-MAX_RAM := 20000000000
+N_THREADS := 32
+MAX_RAM := 100000000000
 
 ## Cluster-specific variables
-EXE_DIR := /home/fas/gerstein/jc2296/software/vcf2diploid_RobK
+EXE_DIR := /workdir/sc2457/tools/vcf2diploid_v0.2.6a
 JAVA_EXE := java
-BOWTIE_DIR := /home/fas/gerstein/jc2296/software
-BEDTOOLS_DIR := /home/fas/gerstein/jc2296/software/bedtools
+BOWTIE_DIR := NULL
+BEDTOOLS_DIR := NULL
 
 ##
 ## Run-specific variables

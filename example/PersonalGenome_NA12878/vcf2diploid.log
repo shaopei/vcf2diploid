@@ -1,0 +1,5 @@
+Writing output to: example/PersonalGenome_NA12878
+example/CEU.trio.chr20.2010_03.genotypes.vcf: 58983 variants, 58983 variant bases
+Working on chr20...
+Applied 40064 variants 40064 bases to paternal genome.
+Applied 39858 variants 39858 bases to maternal genome.
