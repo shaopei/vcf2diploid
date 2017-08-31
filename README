@@ -1,4 +1,34 @@
-README file for vcf2diploid tool distribution
+README file for vcf2diploid tool distribution v_0.2.6a (19th Sept 2014)
+
+This version of vcf2diploid integrates vcf2diploid_v_0.2.6 with generation of read depth for AlleleSeq filtering of potential SNPs residing in CNV locations.
+There is also an additional option on vcf2diploid for an output folder.
+
+The read-depth-file generator calculates a normalized read depth for a SNP in a 2000-bp window (+- 1000bp) around the SNP against an average depth computed 
+from the entire genome. The output generated can be directly used for the AlleleSeq pipeline.
+
+CITATION:
+Rozowsky J, Abyzov A, Wang J, Alves P, Raha D, Harmanci A, Leng J, Bjornson R, Kong Y, Kitabayashi N, Bhardwaj N, Rubin M, Snyder M, Gerstein M.
+AlleleSeq: analysis of allele-specific expression and binding in a network framework.
+Mol Syst Biol. 2011 Aug 2;7:522. doi: 10.1038/msb.2011.54.
+
+############################################################
+#### makePersonalGenome.mk
+############################################################
+
+After installation/compilation of vcf2diploid, modify the file makePersonalGenome.mk to run the following
+1) vcf2diploid
+2) vcf2snp
+3) read-depth-file generator
+
+USAGE: make -f makePersonalGenome DATA_DIR=/path/to/your/VCFdir OUTPUT_SAMPLE_NAME=NA12878 FILE_NAME_BAM=filename.in.DATA_DIR.bam FILE_NAME_VCF=filename.in.DATA_DIR.vcf
+--currently DATA_DIR is set as the directory where the BAM and VCF files are kept and where the output directory is going to be.
+--options can be modified in the file
+
+Acknowledgement: The modifications in this version are created by R. Kitchen of the Gerstein Lab@Yale.
+
+#############################################################
+#### The following section describes vcf2diploid_v_0.2.6
+#############################################################
 
 1. Compilation
 ==============

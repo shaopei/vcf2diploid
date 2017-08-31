@@ -4,7 +4,7 @@ import java.io.*;
 import java.lang.reflect.*;
 
 /**
- * Class to construct diploid genome from genome reference and genome variant
+ * Class to construct diploid genome from genome reference and genome variants
  * calls in VCF format.
  *
  * @author Alexej Abyzov
@@ -15,11 +15,15 @@ public class VCF2diploid
 
     private String[] _chrFiles = null, _vcfFiles = null;
     private String   _id = "";
-    private ArrayList<Variant>[] _variants = new ArrayList[86];
-	
+    private ArrayList<Variant>[] _variants = new ArrayList[25];
+    private String outputDir = "";
+
     public VCF2diploid(String[] chrFiles,String[] vcfFiles,
-		       String id,boolean pass)
+		       String id,boolean pass, String outputDir)
     {
+
+	this.outputDir = outputDir;
+
 	_chrFiles = chrFiles;
 	_vcfFiles = vcfFiles;
 	if (id != null) _id = id;
@@ -48,6 +52,7 @@ public class VCF2diploid
 	// for (int i = 0;i < _variants.length;i++)
 	//     System.out.println((i + 1) + " " + _variants[i].size());
     }
+
 
     public void makeDiploid()
     {
@@ -140,7 +145,7 @@ public class VCF2diploid
 	}
 
 	try {
-	    FileWriter fw = new FileWriter(new File("paternal.chain"));
+	    FileWriter fw = new FileWriter(new File(this.outputDir+"/paternal.chain"));
 	    BufferedWriter bw = new BufferedWriter(fw);
 	    bw.write(paternal_chains.toString());
 	    bw.newLine();
@@ -151,7 +156,7 @@ public class VCF2diploid
 	}
 
 	try {
-	    FileWriter fw = new FileWriter(new File("maternal.chain"));
+	    FileWriter fw = new FileWriter(new File(this.outputDir+"/maternal.chain"));
 	    BufferedWriter bw = new BufferedWriter(fw);
 	    bw.write(maternal_chains.toString());
 	    bw.newLine();
@@ -296,7 +301,7 @@ public class VCF2diploid
 	int NOT_IN_GENOME = 0;
 	String file_name = ref_seq.getName() + "_" + _id + ".map";
 	try {
-	    FileWriter fw = new FileWriter(new File(file_name));
+	    FileWriter fw = new FileWriter(new File(this.outputDir+"/"+file_name));
 	    BufferedWriter bw = new BufferedWriter(fw);
 	    bw.write("#REF\tPAT\tMAT");
 	    bw.newLine();
@@ -379,7 +384,7 @@ public class VCF2diploid
 			      Hashtable<Integer,String> pat_ins_seq,
 			      Hashtable<Integer,String> mat_ins_seq)
     {
-	String file_name = paternalName(ref_seq.getName() + "_" + _id) + ".fa";
+	String file_name = paternalName(this.outputDir+"/"+ref_seq.getName() + "_" + _id) + ".fa";
 	String name      = paternalName(ref_seq.getName());
 	try {
 	    FileWriter fw = new FileWriter(new File(file_name));
@@ -391,7 +396,7 @@ public class VCF2diploid
 	    System.err.println(ex.toString());
 	}
 
-	file_name = maternalName(ref_seq.getName() + "_" + _id) + ".fa";
+	file_name = maternalName(this.outputDir+"/"+ref_seq.getName() + "_" + _id) + ".fa";
 	name      = maternalName(ref_seq.getName());
 	try {
 	    FileWriter fw = new FileWriter(new File(file_name));
@@ -495,12 +500,14 @@ public class VCF2diploid
 	ArrayList<String> chrFiles = new ArrayList<String>(1);
 	ArrayList<String> vcfFiles = new ArrayList<String>(1);
 	String id = "";
+	String outputDir = "";
 	boolean pass = false;
 
 	String usage = "Usage:\n";
 	usage += "\tvcf2diploid -id sample_id [-pass] ";
 	usage += "-chr file.fa ... ";
-	usage += "[-vcf file.vcf ...]\n";
+	usage += "[-vcf file.vcf ...] ";
+	usage += "[-outDir path/to/output]\n";
 	usage += "\tvcf2diploid -version\n";
 
 	for (int i = 0;i < args.length;i++) {
@@ -519,8 +526,13 @@ public class VCF2diploid
 		return;
 	    } else if (args[i].equals("-pass")) {
 		pass = true;
-	    }
+	    } else if (args[i].equals("-outDir")) {
+		if (++i < args.length) outputDir = args[i];
+                //outputDir = args[i];
+            }
 	}
+
+	System.out.println("Writing output to: "+outputDir);
 
 	if (id.length() <= 0) {
 	    System.err.println("No sample id is given.\n");
@@ -540,7 +552,7 @@ public class VCF2diploid
 	VCF2diploid maker =
 	    new VCF2diploid(chrFiles.toArray(new String[0]),
 			    vcfFiles.toArray(new String[0]),
-			    id,pass);
+			    id,pass,outputDir);
 	maker.makeDiploid();
     }
 
