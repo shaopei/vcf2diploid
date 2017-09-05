@@ -1,4 +1,4 @@
-USAGE := "make -f makePersonalGenome.mk DATA_DIR=/path/to/your/VCFdir OUTPUT_SAMPLE_NAME=NA12878 MAT_SAMPLE_NAME=mat AT_SAMPLE_NAME=pat FILE_NAME_BAM=filename.in.DATA_DIR.bam FILE_NAME_VCF=filename.in.DATA_DIR.vcf"
+USAGE := "make -f makePersonalGenome.mk DATA_DIR=/path/to/your/VCFdir OUTPUT_SAMPLE_NAME=NA12878 MAT_SAMPLE_NAME=mat PAT_SAMPLE_NAME=pat FILE_NAME_BAM=filename.in.DATA_DIR.bam FILE_NAME_VCF=filename.in.DATA_DIR.vcf"
 
 ##
 ## Define fixed, experiment-wide analysis parameters
