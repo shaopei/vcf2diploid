@@ -3,7 +3,7 @@
 # modified vcf4.2 to vcf4.0 file for vcf2diploid
 # keep two mouse strains of interest (column) 25 11 in the example, index start at 1
 # keep PASS filtered (row)
-# filter out genotypes such as 0|., .|.,1|.,... only keep genotypes 1|1, 0|0, 0|1, 1|0
+# filter out genotypes such as 0|., .|.,1|.,... only keep genotypes 1|1, 0|0, 0|1, 1|0, 1|2, 2|1, ...
 # filter out snps where both pareants are identical to ref genome. ie 0|0, 0|0 (child also 0|0)
 # only keep snps where both parents have homolog alleles
 # add artificial F1 Genotype
@@ -32,9 +32,9 @@ def from_two_parents():
                     temp2 = ll[mat_strain].split(':')[0:3]
                     parent1=':'.join(['|'.join(temp1[0].split('/'))]+temp1[1:])
                     parent2=':'.join(['|'.join(temp2[0].split('/'))]+temp2[1:])
-                    if parent1[0] != '.' and parent1[2] != '.' and parent2[0] != '.' and parent2[2]!= '.':
-                        if parent1[0:3] != '0|0' or parent2[0:3] != '0|0' :
-                            if parent1[0] == parent1[2] and parent2[0] == parent2[2]:
+                    if parent1[0] != '.' and parent1[2] != '.' and parent2[0] != '.' and parent2[2]!= '.':  #the genotype of parentes are known
+                        if parent1[0:3] != '0|0' or parent2[0:3] != '0|0' :  # filter out snps where both pareants are identical to ref genome. ie 0|0, 0|0 (child also 0|0)
+                            if parent1[0] == parent1[2] and parent2[0] == parent2[2]: # only keep snps where both parents have homolog alleles
                                 child = ':'.join([parent1[0]+'|'+parent2[0], '.','.'])
                                 out.write('\t'.join(ll[0:8]+[FORMAT,parent1,parent2,child]))
                                 out.write('\n')
